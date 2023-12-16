@@ -15,6 +15,9 @@
 		<li>
 			<a href="contactus">Contact Us Foam</a>
 		</li>
+		<li>
+			<a href="admin/dashboard">Administrator Dash board</a>			
+		</li>
 	</ol>
 </body>
 </html>
