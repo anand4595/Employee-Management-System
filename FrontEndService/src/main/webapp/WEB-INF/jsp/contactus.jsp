@@ -13,24 +13,31 @@ body {
 .green-text {
 	color: green;
 }
+
+.red-text {
+    color: red;
+}
 </style>
 </head>
 <body>
 	<h1>Contact US Foam</h1>
 
 	<%
-	String name = (String) request.getAttribute("name");
-	String email = (String) request.getAttribute("email");
+	String status = (String) request.getAttribute("status");
+	String  message = (String) request.getAttribute("message");
 	%>
 
 	<%
-	if (name != null) {
+	if (status != null && status.equals("success")) {
 	%>
-	<p class="green-text">Thanks ${name}, we will soon respond to your query at
-		${email}</p>
+	<p class="green-text"> ${message} </p>
 	<%
-	}
+	} else if (status != null) {
 	%>
+    <p class="red-text">${message}</p>
+    <%
+    }
+    %>
 
 	<form action="contactus" method="post">
 		<p>

@@ -4,10 +4,7 @@ import com.example.AdministratorService.model.ContactUsModel;
 import com.example.AdministratorService.repository.ContactUsRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -33,12 +30,10 @@ public class ContactUsController {
 
     @PostMapping("/createQuery")
     public Map<String, String> createQuery(
-            Map<String, String> request
+           @RequestParam("name") String name,
+           @RequestParam("email") String email,
+           @RequestParam("query") String query
     ) {
-
-        String email = request.get("email");
-        String name = request.get("name");
-        String query = request.get("query");
 
         if (contactUsRepository.existsByEmail(email)){
             return new HashMap<>(){{
@@ -59,7 +54,7 @@ public class ContactUsController {
 
         return new HashMap<>() {{
             put("status", "success");
-            put("message", "Thanks for contacting us" + name + "we will respond you at " + email);
+            put("message", "Thanks for contacting us " + name + " we will respond you at " + email);
         }};
     }
 }

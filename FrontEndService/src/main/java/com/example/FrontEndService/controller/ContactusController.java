@@ -1,15 +1,23 @@
 package com.example.FrontEndService.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.FrontEndService.externalService.AdministratorService.ContactUsService;
+
 import jakarta.servlet.http.HttpServletRequest;
+
+import java.util.Map;
 
 @Controller
 public class ContactusController {
 
+	@Autowired
+	ContactUsService contactUsService;
+	
 	@GetMapping("/contactus")
 	public String contactusGet() {
 		return "contactus";
@@ -18,10 +26,17 @@ public class ContactusController {
 	@PostMapping("/contactus")
 	public ModelAndView contactusPost(HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView("contactus");
-		
-		modelAndView.addObject("name", httpServletRequest.getParameter("name"));
-		modelAndView.addObject("email", httpServletRequest.getParameter("email"));
-		
+
+		String name = httpServletRequest.getParameter("name");
+		String email = httpServletRequest.getParameter("email");
+		String query = httpServletRequest.getParameter("query");
+
+//		this is inter service communication
+		Map<String,String> serverResponce =  contactUsService.createQuery(name, email, query);
+
+		modelAndView.addObject("status", serverResponce.get("status"));
+		modelAndView.addObject("message", serverResponce.get("message"));
+
 		return modelAndView;
 	}
 }
