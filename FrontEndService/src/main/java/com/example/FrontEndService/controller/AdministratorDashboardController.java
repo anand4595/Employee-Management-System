@@ -19,7 +19,7 @@ import com.example.FrontEndService.model.DepartmentListModel;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/admin")
+// @RequestMapping("/admin")
 public class AdministratorDashboardController {
 
 	@Autowired
@@ -36,13 +36,13 @@ public class AdministratorDashboardController {
 		return modelAndView;
 	}
 
-	@GetMapping("/dashboard")
+	@GetMapping("/admin/dashboard")
 	public ModelAndView administratorDashboard() {
 		ModelAndView modelAndView = new ModelAndView("administratorDashboard");
 		return standardDashboardDisplay(modelAndView);
 	}
 
-	@PostMapping("/createDepartment")
+	@PostMapping("/admin/createDepartment")
 	public ModelAndView createDepartment(HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView("administratorDashboard");
 		

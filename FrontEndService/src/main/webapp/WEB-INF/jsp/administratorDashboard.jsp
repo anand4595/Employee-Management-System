@@ -17,7 +17,11 @@ table, th, td {
 </head>
 <body>
 	<h1>Administrator Dash board</h1>
-
+	<h2>Employee Service</h2>
+	<ol>
+		<li><a href="../createEmployee">Create New Employee</a></li>
+	</ol>
+	
 	<h2>departments</h2>
 	<h3>Department List</h3>
 
