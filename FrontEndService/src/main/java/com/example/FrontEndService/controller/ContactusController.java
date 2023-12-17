@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.example.FrontEndService.externalService.AdministratorService.ContactUsService;
+import com.example.FrontEndService.externalService.AdministratorService;
+
+//import com.example.FrontEndService.externalService.AdministratorService.ContactUsService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -16,7 +18,7 @@ import java.util.Map;
 public class ContactusController {
 
 	@Autowired
-	ContactUsService contactUsService;
+	AdministratorService administratorService;
 	
 	@GetMapping("/contactus")
 	public String contactusGet() {
@@ -32,7 +34,7 @@ public class ContactusController {
 		String query = httpServletRequest.getParameter("query");
 
 //		this is inter service communication
-		Map<String,String> serverResponce =  contactUsService.createQuery(name, email, query);
+		Map<String,String> serverResponce =  administratorService.createQuery(name, email, query);
 
 		modelAndView.addObject("status", serverResponce.get("status"));
 		modelAndView.addObject("message", serverResponce.get("message"));

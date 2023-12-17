@@ -1,5 +1,6 @@
+
 server:
-    port: 8081 
+    port: 8082
 
 spring:
   jpa:
@@ -11,10 +12,12 @@ spring:
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
-    
+   
   application:
-    name: administrator-service
-
+    name: create-emplooyee-service
+#  sql:
+#    init:
+#      mode: always
 
 eureka:
   client:
@@ -22,3 +25,5 @@ eureka:
       defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
   instance:
     preferIpAddress: true
+    
+#spring.sql.init.mode=always

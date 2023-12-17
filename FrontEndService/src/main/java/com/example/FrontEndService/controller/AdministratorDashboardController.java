@@ -1,44 +1,57 @@
 package com.example.FrontEndService.controller;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.FrontEndService.externalService.AdministratorService;
+//import com.example.FrontEndService.externalService.AdministratorService.ContactUsService;
+//import com.example.FrontEndService.externalService.AdministratorService.DeparmentListService;
 import com.example.FrontEndService.model.ContactUsModel;
+import com.example.FrontEndService.model.DepartmentListModel;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/admin")
 public class AdministratorDashboardController {
-	
+
+	@Autowired
+	AdministratorService administratorService;
+
+	public ModelAndView standardDashboardDisplay(ModelAndView modelAndView) {
+
+		List<ContactUsModel> contactUsModelList = administratorService.readAllQuery();
+		List<DepartmentListModel> departmentListModel = administratorService.getDepartmentList();
+
+		modelAndView.addObject("contactUsModelList", contactUsModelList);
+		modelAndView.addObject("departmentListModel", departmentListModel);
+
+		return modelAndView;
+	}
+
 	@GetMapping("/dashboard")
 	public ModelAndView administratorDashboard() {
 		ModelAndView modelAndView = new ModelAndView("administratorDashboard");
+		return standardDashboardDisplay(modelAndView);
+	}
+
+	@PostMapping("/createDepartment")
+	public ModelAndView createDepartment(HttpServletRequest httpServletRequest) {
+		ModelAndView modelAndView = new ModelAndView("administratorDashboard");
 		
-		ContactUsModel [] ls = new ContactUsModel[3];
-		ls[0] = ContactUsModel.builder()
-				.email("anand@xyz.com")
-				.name("anand")
-				.query("anands query")
-				.solved(false)
-				.build();
+		String departmentName = (String) httpServletRequest.getParameter("departmentName");
 		
-		ls[1] = ContactUsModel.builder()
-				.email("anand@xyz.com")
-				.name("anand")
-				.query("anands query")
-				.solved(true)
-				.build();	
+		Map<String, String> addDeparmentNameResponce = administratorService.createDepartment(departmentName);
 		
-		ls[2] = ContactUsModel.builder()
-				.email("yash@xyz.com")
-				.name("yash")
-				.query("yash query")
-				.solved(true)
-				.build();
+		modelAndView.addObject("addDeparmentNameResponce", addDeparmentNameResponce);
 		
-		modelAndView.addObject("contactUsModelArray", ls);
-		
-		return modelAndView;
+		return standardDashboardDisplay(modelAndView);
 	}
 }

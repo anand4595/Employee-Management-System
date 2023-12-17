@@ -1,3 +1,6 @@
+<%@page import="java.util.Map"%>
+<%@page import="com.example.FrontEndService.model.DepartmentListModel"%>
+<%@page import="java.util.List"%>
 <%@page import="com.example.FrontEndService.model.ContactUsModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -14,9 +17,56 @@ table, th, td {
 </head>
 <body>
 	<h1>Administrator Dash board</h1>
+
+	<h2>departments</h2>
+	<h3>Department List</h3>
+
+	<%
+	Map<String, String> addDeparmentNameResponce = (Map<String, String>) request.getAttribute("addDeparmentNameResponce");
+	%>
+	<%
+	if (addDeparmentNameResponce != null && addDeparmentNameResponce.get("status").equals("fail")) {
+	%>
+	<p style="color:red"><%=addDeparmentNameResponce.get("message")%>
+	</p>
+	<%
+	} else if (addDeparmentNameResponce != null && addDeparmentNameResponce.get("status").equals("success")) {
+	%>
+	<p style="color:green"><%=addDeparmentNameResponce.get("message")%>
+	</p>
+	<%
+	}
+	%>
+
+	<form action="createDepartment" method="post">
+		<p>Make New Department:</p>
+		<input type="text" name="departmentName"> <input type="submit"
+			value="Add department">
+	</form>
+	<br>
+	<%
+	List<DepartmentListModel> departmentList = (List<DepartmentListModel>) request.getAttribute("departmentListModel");
+	%>
+	<table>
+		<tr>
+			<th>Department Name</th>
+		</tr>
+		<%
+		for (int i = 0; i < departmentList.size(); i++) {
+		%>
+		<tr>
+			<td><%=departmentList.get(i).getName()%></td>
+		</tr>
+		<%}%>
+	</table>
+
+	<hr>
 	<h2>Unanswered Queries</h2>
 	<%
-	ContactUsModel[] contactUsModelArray = (ContactUsModel[]) request.getAttribute("contactUsModelArray");
+	List<ContactUsModel> contactUsModelList = (List<ContactUsModel>) request.getAttribute("contactUsModelList");
+	%>
+	<%
+	if (contactUsModelList.size() != 0) {
 	%>
 	<table>
 		<tr>
@@ -26,11 +76,11 @@ table, th, td {
 			<th>Status</th>
 		</tr>
 		<%
-		for (int i = 0; i < contactUsModelArray.length; i++) {
-			String name = contactUsModelArray[i].getName();
-			String email = contactUsModelArray[i].getEmail();
-			String query = contactUsModelArray[i].getQuery();
-			String status = contactUsModelArray[i].isSolved() == true ? "Resolved" : "Not Resolved";
+		for (int i = 0; i < contactUsModelList.size(); i++) {
+			String name = contactUsModelList.get(i).getName();
+			String email = contactUsModelList.get(i).getEmail();
+			String query = contactUsModelList.get(i).getQuery();
+			String status = contactUsModelList.get(i).isSolved() == true ? "Resolved" : "Not Resolved";
 		%>
 		<tr>
 			<td><%=name%></td>
@@ -40,6 +90,12 @@ table, th, td {
 		</tr>
 		<%}%>
 	</table>
-
+	<%
+	} else {
+	%>
+	<p>All query solved</p>
+	<%
+	}
+	%>
 </body>
 </html>
