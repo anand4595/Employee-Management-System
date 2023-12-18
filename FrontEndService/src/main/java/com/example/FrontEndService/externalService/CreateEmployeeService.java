@@ -6,7 +6,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.FrontEndService.model.Role;
 
 @FeignClient(name="create-emplooyee-service")
 public interface CreateEmployeeService {
