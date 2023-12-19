@@ -1,5 +1,6 @@
 package com.example.FrontEndService.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +39,13 @@ public class ReadEmployeeController {
     
     @GetMapping("/readAllEmployee")
     public ModelAndView readAllEmployeeGet () {
-    	return new ModelAndView("readAllEmployee");
+    	ModelAndView modelAndView = new ModelAndView("readAllEmployee");
+    	
+    	List<Map<String, Object>>  employeeList = readEmployeeService.getEmployeeList();
+    	modelAndView.addObject("employeeList", employeeList);
+    	
+    	
+    	return modelAndView;
     }
     
-    @PostMapping("/readAllEmployee")
-    public ModelAndView readAllEmployeePost () {
-    	return new ModelAndView("readAllEmployee");
-    }
 }

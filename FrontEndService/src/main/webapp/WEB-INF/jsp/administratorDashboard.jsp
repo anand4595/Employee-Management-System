@@ -20,6 +20,8 @@ table, th, td {
 	<h2>Employee Service</h2>
 	<ol>
 		<li><a href="../createEmployee">Create New Employee</a></li>
+		<li><a href="../readEmployeeById">Read Single Employee</a>
+		<li><a href="../readAllEmployee">Read All Employee</a>		
 	</ol>
 	
 	<h2>departments</h2>
