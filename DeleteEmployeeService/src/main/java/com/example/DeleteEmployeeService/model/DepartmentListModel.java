@@ -1,4 +1,4 @@
-package com.example.ReadEmployeeService.model;
+package com.example.DeleteEmployeeService.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

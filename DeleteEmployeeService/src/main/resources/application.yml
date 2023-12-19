@@ -1,0 +1,29 @@
+
+server:
+    port: 8084
+
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/EmployeeManagementDB
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+   
+  application:
+    name: delete-employee-service
+#  sql:
+#    init:
+#      mode: always
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+  instance:
+    preferIpAddress: true
+    
+#spring.sql.init.mode=always

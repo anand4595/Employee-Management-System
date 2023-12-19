@@ -1,12 +1,16 @@
-package com.example.ReadEmployeeService.repository;
+package com.example.DeleteEmployeeService.repository;
 
+import java.util.List;
 import java.util.Optional;
 
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.example.ReadEmployeeService.model.EmployeeModel;
+import com.example.DeleteEmployeeService.model.EmployeeModel;
 
 public interface EmployeeRepository extends JpaRepository<EmployeeModel, Long> {
-    		Optional<EmployeeModel> findById(Long id);
+    @Transactional
+    void deleteById(Long id);
+
 
 }

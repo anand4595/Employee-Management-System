@@ -1,4 +1,4 @@
-package com.example.ReadEmployeeService.model;
+package com.example.DeleteEmployeeService.model;
 
 import java.util.HashMap;
 import java.util.Map;
