@@ -1,4 +1,4 @@
-package com.example.updateEmployeeService;
+package com.example.UpdateEmployeeService;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
