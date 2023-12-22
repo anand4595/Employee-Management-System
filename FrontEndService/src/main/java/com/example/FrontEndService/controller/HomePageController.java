@@ -10,4 +10,10 @@ public class HomePageController {
     public String index(){
         return "index";
     }
+	
+	 @GetMapping("/index")
+	    public String getIndexPage() {
+	        return "index"; 
+	    }
+	
 }

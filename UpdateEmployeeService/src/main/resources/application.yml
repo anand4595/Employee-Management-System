@@ -14,7 +14,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
    
   application:
-    name: create-emplooyee-service
+    name: update-employee-service
 #  sql:
 #    init:
 #      mode: always

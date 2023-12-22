@@ -1,85 +1,93 @@
 package com.example.UpdateEmployeeService.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.example.UpdateEmployeeService.ExternalServices.CreateEmployeeService;
+import com.example.UpdateEmployeeService.model.*;
+import com.example.UpdateEmployeeService.repository.AuthenticationRepository;
+import com.example.UpdateEmployeeService.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.UpdateEmployeeService.model.AuthenticationModel;
-import com.example.UpdateEmployeeService.model.DepartmentListModel;
-import com.example.UpdateEmployeeService.model.EmployeeGender;
-import com.example.UpdateEmployeeService.model.EmployeeModel;
-import com.example.UpdateEmployeeService.model.EmployeeNameModel;
-import com.example.UpdateEmployeeService.model.Role;
-import com.example.UpdateEmployeeService.repository.AuthenticationRepository;
-import com.example.UpdateEmployeeService.repository.EmployeeRepository;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/employeeService")
 public class EmployeeController {
 
-	@Autowired
-	EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-	@Autowired
-	AuthenticationRepository authenticationRepository;
+    @Autowired
+    private AuthenticationRepository authenticationRepository;
 
-	@PostMapping("/updateEmployee")
-	public Map<String, String> createEmployee(
-			@RequestParam Long employeeId,
-			@RequestParam String firstName,
-			@RequestParam String middleName,
-			@RequestParam String lastName,
-			@RequestParam String email,
-			@RequestParam String gender,
-			@RequestParam int age,
-			@RequestParam int salary,
-			@RequestParam String department,
-			@RequestParam String role,
-			@RequestParam String password
+    @Autowired
+    private CreateEmployeeService createEmployeeService;
 
-	) 
-	{
-		EmployeeModel employeeModel = EmployeeModel
-				.builder()
-				.name(
-					EmployeeNameModel
-					.builder()
-					.first_name(firstName)
-					.middle_name(middleName)
-					.last_name(lastName)
-					.build()
-				)
-				.email(email)
-				.gender(EmployeeGender.valueOf(gender))
-				.age(age)
-				.salary(salary)
-				.deparment(
-						DepartmentListModel
-								.builder()
-								.name(department)
-								.build())
-				.build();
+    @PostMapping("/updateEmployee")
+    public Map<String, String> updateEmployee(
+            @RequestParam Long employeeId,
+            @RequestParam String firstName,
+            @RequestParam String middleName,
+            @RequestParam String lastName,
+            @RequestParam String email,
+            @RequestParam String gender,
+            @RequestParam int age,
+            @RequestParam int salary,
+            @RequestParam String department,
+            @RequestParam String role,
+            @RequestParam String password
 
-		employeeModel = employeeRepository.save(employeeModel);
+    ) {
+        Optional<EmployeeModel> employeeModel = employeeRepository.findById(employeeId);
 
-		AuthenticationModel authenticationModel = AuthenticationModel
-				.builder()
-				.employeeModel(employeeModel)
-				.role(Role.valueOf(role))
-				.password(password)
-				.build();
+        if (employeeModel.isEmpty()) {
+            // Employee not found, call create service using Feign Client
+            Map<String, String> response = createEmployeeService.createEmployee(
+                    firstName,
+                    middleName,
+                    lastName,
+                    email,
+                    gender,
+                    age,
+                    salary,
+                    department,
+                    role,
+                    password
+            );
 
-		authenticationRepository.save(authenticationModel);
 
-		Map<String, String> responce = new HashMap<>();
-		responce.put("status", "success");
-		responce.put("message", "New Employee have been created with ID: " + employeeModel.getId());
+            return response;
+        } else {
+            // Employee found, perform update
+            employeeModel.get().setName(EmployeeNameModel.builder()
+                    .first_name(firstName)
+                    .middle_name(middleName)
+                    .last_name(lastName)
+                    .build());
+            employeeModel.get().setEmail(email);
+            employeeModel.get().setGender(EmployeeGender.valueOf(gender));
+            employeeModel.get().setAge(age);
+            employeeModel.get().setSalary(salary);
+            employeeModel.get().setDeparment(DepartmentListModel.builder().name(department).build());
 
-		return responce;
-	}
+            employeeRepository.save(employeeModel.get());
+
+            Optional<AuthenticationModel> authenticationModel = authenticationRepository.findById(employeeModel.get().getId());
+
+            // Authentication found, perform update
+            authenticationModel.get().setRole(Role.valueOf(role));
+            authenticationModel.get().setPassword(password);
+
+            authenticationRepository.save(authenticationModel.get());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("status", "success");
+            response.put("message", "Employee with ID: " + employeeModel.get().getId() + " has been updated");
+            return response;
+        }
+    }
 }
