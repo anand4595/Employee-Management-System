@@ -158,9 +158,9 @@ body {
                            onclick="toggleDropdown('servicesDropdown')">Services</a>
                         <div id="servicesDropdown" class="dropdown-content">
                             <a href="/createEmployee">Create</a>
-                            <a href="#">Update</a>
+                            <a href="/updateEmployee">Update</a>
                             <a href="#">Delete</a>
-                            <a href="#">Display</a>
+                            <a href="/readAllEmployee">Display</a>
                             <a href="/admin/dashboard">Department</a>
                         </div>
         </div>
@@ -205,7 +205,7 @@ body {
     %>
   <form class="w-full" action="contactus" method="post">
   <div class="flex flex-wrap -mx-3 mb-6">
-    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+    <div class="w-full md:w-full px-3 mb-6 md:mb-0">
       <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
         Name
       </label>

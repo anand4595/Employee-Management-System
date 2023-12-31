@@ -105,7 +105,7 @@
                             <a href="/createEmployee">Create</a>
                             <a href="/updateEmployee">Update</a>
                             <a href="#">Delete</a>
-                            <a href="#">Display</a>
+                            <a href="/readAllEmployee">Display</a>
                             <a href="/admin/dashboard">Department</a>
                         </div>
         </div>

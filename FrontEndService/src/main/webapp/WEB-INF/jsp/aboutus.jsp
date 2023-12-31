@@ -118,9 +118,9 @@
                            onclick="toggleDropdown('servicesDropdown')">Services</a>
                         <div id="servicesDropdown" class="dropdown-content">
                             <a href="/createEmployee">Create</a>
-                            <a href="#">Update</a>
+                            <a href="/updateEmployee">Update</a>
                             <a href="#">Delete</a>
-                            <a href="#">Display</a>
+                            <a href="/readAllEmployee">Display</a>
                             <a href="/admin/dashboard">Department</a>
                         </div>
         </div>
@@ -132,8 +132,10 @@
       </div>
     </div>
   </nav>
-  
+  <div>
+  <div style="    position: absolute;top: 30%;left: 40%;transform: translate(-50%, -50%);"><h1>About us</h1><br>Welcome to EMS, where we redefine efficiency and empower businesses through our cutting-edge Employee Management System (EMS). At EMS, we believe that managing your workforce should be seamless, intelligent, and tailored to meet the unique needs of your organization.</div>
   <img class="back-img" src="/image/img3.jpg" alt="Image">
+  </div>
 
 <footer class="footer-1 bg-gray-100 py-8 sm:py-12" style="line-height: 3vh;">
   <div class="container mx-auto px-4">

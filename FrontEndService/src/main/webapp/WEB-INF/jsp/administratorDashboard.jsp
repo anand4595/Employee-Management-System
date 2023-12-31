@@ -1,7 +1,12 @@
+<%@page import="com.example.FrontEndService.ResponseModel.CustomResponseStatus"%>
+<%@page import="com.example.FrontEndService.ResponseModel.administrator.AddDepartmentResponse"%>
+<%@page import="com.example.FrontEndService.model.ContactUs"%>
+<%@page import="com.example.FrontEndService.ResponseModel.administrator.ReadAllContactUsResponse"%>
+<%@page import="com.example.FrontEndService.model.Department"%>
+<%@page import="com.example.FrontEndService.ResponseModel.administrator.DepartmentListResponse"%>
+<%@page import="org.springframework.http.ResponseEntity"%>
 <%@page import="java.util.Map"%>
-<%@page import="com.example.FrontEndService.model.DepartmentListModel"%>
 <%@page import="java.util.List"%>
-<%@page import="com.example.FrontEndService.model.ContactUsModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -49,6 +54,31 @@
         	   top: 24%;
    				 }
         } 
+         .header-2 {
+            flex: 1; 
+        }
+
+        .footer-1 {
+            background-color: #f9f9f9; 
+            padding: 2rem 0; 
+        }
+        @media screen and (max-width: 480px){
+         .footer2 {
+        font-size: 14px;
+    }
+    }
+    .footer2 {
+    border-top: 1px solid gainsboro;
+    padding-top: 1rem;
+    text-align: center;
+}
+        
+        
+        .footer-links {
+  a {
+    padding-bottom: 2px;
+  }
+}
 	
 </style>	
 </head>
@@ -72,9 +102,9 @@
                            onclick="toggleDropdown('servicesDropdown')">Services</a>
                         <div id="servicesDropdown" class="dropdown-content">
                             <a href="/createEmployee">Create</a>
-                            <a href="#">Update</a>
+                            <a href="/updateEmployee">Update</a>
                             <a href="#">Delete</a>
-                            <a href="#">Display</a>
+                            <a href="/readAllEmployee">Display</a>
                             <a href="/admin/dashboard">Department</a>
                         </div>
         </div>
@@ -107,17 +137,17 @@
 
         <%-- Add Department Message --%>
         <%
-	Map<String, String> addDeparmentNameResponce = (Map<String, String>) request.getAttribute("addDeparmentNameResponce");
+        ResponseEntity<AddDepartmentResponse> addDeparmentNameResponce = (ResponseEntity<AddDepartmentResponse>) request.getAttribute("addDeparmentNameResponce");
 	%>
 	<%
-	if (addDeparmentNameResponce != null && addDeparmentNameResponce.get("status").equals("fail")) {
+	if (addDeparmentNameResponce != null && addDeparmentNameResponce.getBody().getStatus() == CustomResponseStatus.fail) {
 	%>
-	<p style="color:red"><%=addDeparmentNameResponce.get("message")%>
+	<p style="color:red"><%=addDeparmentNameResponce.getBody().getMessage()%>
 	</p>
 	<%
-	} else if (addDeparmentNameResponce != null && addDeparmentNameResponce.get("status").equals("success")) {
+	} else if (addDeparmentNameResponce != null && addDeparmentNameResponce.getBody().getStatus() == CustomResponseStatus.success) {
 	%>
-	<p style="color:green"><%=addDeparmentNameResponce.get("message")%>
+	<p style="color:green"><%=addDeparmentNameResponce.getBody().getMessage()%>
 	</p>
 	<%
 	}
@@ -132,7 +162,7 @@
 
         <!-- Department List Table -->
         <%
-        List<DepartmentListModel> departmentList = (List<DepartmentListModel>) request.getAttribute("departmentListModel");
+        ResponseEntity<DepartmentListResponse> departmentList = (ResponseEntity<DepartmentListResponse> ) request.getAttribute("departmentListModel");
         %>
         <table class="table-auto mb-6">
             <thead>
@@ -142,7 +172,7 @@
             </thead>
             <tbody>
                 <%
-                for (DepartmentListModel department : departmentList) {
+                for (Department department : departmentList.getBody().getDepartmentList()) {
                 %>
                 <tr>
                     <td class="border px-4 py-2"><%= department.getName() %></td>
@@ -159,10 +189,10 @@
         <h2 class="text-xl mb-2" style="font-weight:bold;">Unanswered Queries</h2>
 
         <%
-        List<ContactUsModel> contactUsModelList = (List<ContactUsModel>) request.getAttribute("contactUsModelList");
+        ResponseEntity<ReadAllContactUsResponse> contactUsModelList = (ResponseEntity<ReadAllContactUsResponse>) request.getAttribute("contactUsModelList");
         %>
         <%
-        if (contactUsModelList.size() != 0) {
+        if (contactUsModelList.getBody().getContactUsList().size() != 0) {
         %>
         <table class="table-auto mb-6">
             <thead>
@@ -175,7 +205,7 @@
             </thead>
             <tbody>
                 <%
-                for (ContactUsModel contactUs : contactUsModelList) {
+                for (ContactUs contactUs : contactUsModelList.getBody().getContactUsList()) {
                     String name = contactUs.getName();
                     String email = contactUs.getEmail();
                     String query = contactUs.getQuery();
@@ -201,6 +231,101 @@
         %>
     </div>
     
+    <footer class="footer-1 bg-gray-100 py-8 sm:py-12" style="line-height: 3vh;">
+  <div class="container mx-auto px-4">
+    <div class="sm:flex sm:flex-wrap sm:-mx-4 md:py-4">
+      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6">
+        <h5 class="text-xl font-bold mb-6">Features</h5>
+        <ul class="list-none footer-links">
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Cool stuff</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Random feature</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Team feature</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Stuff for developers</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Another one</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Last time</a>
+          </li>
+        </ul>
+      </div>
+      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 sm:mt-0">
+        <h5 class="text-xl font-bold mb-6">Resources</h5>
+        <ul class="list-none footer-links">
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Resource</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Resource name</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Another resource</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Final resource</a>
+          </li>
+        </ul>
+      </div>
+      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
+        <h5 class="text-xl font-bold mb-6">About</h5>
+        <ul class="list-none footer-links">
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Team</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Locations</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Privacy</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Terms</a>
+          </li>
+        </ul>
+      </div>
+      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
+        <h5 class="text-xl font-bold mb-6">Help</h5>
+        <ul class="list-none footer-links">
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Support</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Help Center</a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+      <div class="px-4 mt-4 sm:w-1/3 xl:w-1/6 sm:mx-auto xl:mt-0 xl:ml-auto">
+        <h5 class="text-xl font-bold mb-6 sm:text-center xl:text-left">Stay connected</h5>
+        <div class="flex sm:justify-center xl:justify-start">
+          <a href="" class="w-8 h-8 border border-2 border-gray-400 rounded-full text-center py-1 text-gray-600 hover:text-white hover:bg-blue-600 hover:border-blue-600">
+            <i class="fab fa-facebook"></i>
+          </a>
+          <a href="" class="w-8 h-8 border border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-blue-400 hover:border-blue-400">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="" class="w-8 h-8 border border-2 border-gray-400 rounded-full text-center py-1 ml-2 text-gray-600 hover:text-white hover:bg-red-600 hover:border-red-600">
+            <i class="fab fa-google-plus-g"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+<div class="footer2">
+                Copyright © 2023 Yash & Anand . All Right Reserved .
+            </div>
+    
+  </div>
+</footer>
     
      <script>
 	let toggleBtn = document.querySelector("#navbar-toggle");

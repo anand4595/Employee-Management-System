@@ -1,91 +1,61 @@
-<%@page import="com.example.FrontEndService.model.DepartmentListModel"%>
 <%@page import="java.util.List"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
 <%@page import="java.util.Map"%>
-<%@page import="com.example.FrontEndService.model.DepartmentListModel"%>
-
-
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin | Update</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.7.3/tailwind.min.css">
     <link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.4.6/tailwind.min.css" >
 	<link rel="stylesheet" href= "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" >
+    
+    <title>Admin | Read All Employees</title>
     <style>
-        body {
-            font-family: "Poppins", sans-serif !important;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        body.details {
+            font-family: 'Arial', sans-serif;
             background-color: #f7fafc;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 2xl;
-            color: #2d3748;
-        }
-
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-
-        fieldset {
-            border: none;
             margin: 0;
             padding: 0;
+            display:flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
-
-        legend {
-            font-size: lg;
-            font-weight: bold;
-            color: #2d3748;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 6px;
-            color: #2d3748;
-        }
-
-        input,
-        select {
+	
+	.details{
+		margin-top:8vh;
+	}
+        table {
+            border-collapse: collapse;
             width: 100%;
-            padding: 8px;
-            margin-bottom: 12px;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        th, td {
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            box-sizing: border-box;
+            padding: 12px;
+            text-align: left;
         }
 
-        input[type="radio"] {
-            margin-right: 6px;
+        th {
+            background-color: #2d3748;
+            color: #fff;
         }
 
-        input[type="submit"],
-        input[type="reset"] {
-            background-color: #4a90e2;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        p {
+            color: red;
+            font-size: 18px;
         }
         
-        
-         .dropdown {
+                .dropdown {
         	display: flex;
         	align-items: center;
         	justify-content: center;
@@ -146,12 +116,12 @@
     padding-bottom: 2px;
   }
 }
+	
         
     </style>
 </head>
 
 <body>
-
 <nav class="bg-white py-2 md:py-4">
     <div class="container px-4 mx-auto md:flex md:items-center">
 
@@ -185,74 +155,56 @@
     </div>
   </nav>
 
+ <h1 class="bg-indigo-600 text-white py-2 px-6 rounded-full text-xl mt-6 " style="width: 217px;
+    margin-left: 40%;">Read All Employee</h1>
 
-    <div>
+
+<div class="details">
+
+    <%
+    List<Map<String, Object>> employeeList = (List<Map<String, Object>>) request.getAttribute("employeeList");
+
+    if (employeeList.size() != 0) {
+    %>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Salary</th>
+            <th>Email</th>
+            <th>Department</th>
+        </tr>
+
         <%
-		Map<String, String> responce = (Map<String, String>) request.getAttribute("responce");
-		if (responce != null) {
-		%>
-        <p style="color: green; margin-left: 35%;"><%=responce.get("message")%></p>
+        for (int i = 0; i < employeeList.size(); i++) {
+        %>
+        <tr>
+            <td><%=employeeList.get(i).get("id")%></td>
+            <td>
+                <%=((Map<String, String>) employeeList.get(i).get("name")).get("first_name")%>
+                <%=((Map<String, String>) employeeList.get(i).get("name")).get("middle_name")%>
+                <%=((Map<String, String>) employeeList.get(i).get("name")).get("last_name")%>
+            </td>
+            <td><%=employeeList.get(i).get("age")%></td>
+            <td><%=employeeList.get(i).get("gender")%></td>
+            <td><%=employeeList.get(i).get("salary")%></td>
+            <td><%=employeeList.get(i).get("email")%></td>
+            <td><%=employeeList.get(i).get("department")%></td>
+        </tr>
         <%
-		}
-		%>
+        }
+        %>
+    </table>
+    <%
+    } else if (employeeList.size() == 0) {
+    %>
+    <p style="margin-left: 36%;">No employee added into the database</p>
+    <%
+    }
+    %>
     </div>
-    <h1 class="bg-indigo-600 text-white py-2 px-6 rounded-full text-xl mt-6 " style="width: 210px;
-    margin-left: 40%;">Update Employee</h1>
-    <form action="/updateEmployee" method="post">
-        <fieldset>
-            <legend>Personal Details</legend><br>
-            <fieldset>
-            	<legend>Employee Id</legend>
-            	<label><input type="number" name="employeeid"></label>
-                <legend>Name</legend>
-                <label>First Name: <input type="text" name="firstName"></label>
-                <label>Middle Name: <input type="text" name="middleName"></label>
-                <label>Last Name: <input type="text" name="lastName"></label>
-            </fieldset>
-            <label style="font-weight: bold;">Email <input type="email" name="email"></label>
-            <p style="font-weight: bold;">Gender</p>
-            <label><input type="radio" name="gender" value="male" checked>Male</label>
-            <label><input type="radio" name="gender" value="female">Female</label>
-            <label><input type="radio" name="gender" value="others">Others</label>
-            <label style="font-weight: bold;">Age <input type="number" name="age"></label>
-        </fieldset>
-
-        <fieldset>
-            <legend>Company Details</legend>
-            <label>Salary: <input type="number" name="salary"></label>
-            <label>Department:</label>
-            <%
-				List<DepartmentListModel> departmentListModelList = (List<DepartmentListModel>) request
-						.getAttribute("departmentListModelList");
-				%>
-				<%
-				if (departmentListModelList.size() == 0) {
-				%>
-				<p>No departments Add departments in Administrator dash board</p>
-				<%
-				}
-				%>
-            <select name="department">
-                <%
-					for (int i = 0; i < departmentListModelList.size(); i++) {
-					%>
-					<option value="<%=departmentListModelList.get(i).getName()%>">
-						<%=departmentListModelList.get(i).getName()%>
-					</option>
-					<%
-					}
-					%>
-            </select>
-            <p style="font-weight: bold;">Role</p>
-            <label><input type="radio" name="role" value="Employee" checked>Employee</label>
-            <label><input type="radio" name="role" value="Admin">Admin</label>
-            <label style="font-weight: bold;">Password (Taken name if not given): <input type="password" name="password"></label>
-        </fieldset>
-
-        <br>
-        <input type="submit" value="Update Employee">
-        <input type="reset" value="Reset Form">
-    </form>
     
         <footer class="footer-1 bg-gray-100 py-8 sm:py-12" style="line-height: 3vh;">
   <div class="container mx-auto px-4">
@@ -371,7 +323,5 @@
 
 
 	</script>
-    
 </body>
-
 </html>
