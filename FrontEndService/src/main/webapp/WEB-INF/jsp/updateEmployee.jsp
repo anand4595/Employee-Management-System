@@ -171,16 +171,16 @@
                         <div id="servicesDropdown" class="dropdown-content">
                             <a href="/createEmployee">Create</a>
                             <a href="/updateEmployee">Update</a>
-                            <a href="#">Delete</a>
+                            <a href="/deleteEmployee">Delete</a>
                             <a href="/readAllEmployee">Display</a>
-                            <a href="/admin/dashboard">Department</a>
+                            <a href="/admin/dashboard">Dashboard</a>
                         </div>
         </div>
         
         <a href="/aboutus" class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">About</a>
         <a href="/contactus" class="p-2 lg:px-4 md:mx-2 text-gray-600 rounded hover:bg-gray-200 hover:text-gray-700 transition-colors duration-300">Contact</a>
-        <a href="#" class="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-solid border-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1">Admin Login</a>
-        <a href="#" class="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-solid border-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1">Employee Login</a>
+        <a href="/login" class="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-solid border-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1">Admin/Emp Login</a>
+        <a href="/auth/logout" class="p-2 lg:px-4 md:mx-2 text-indigo-600 text-center border border-solid border-indigo-600 rounded hover:bg-indigo-600 hover:text-white transition-colors duration-300 mt-1 md:mt-0 md:ml-1">Logout</a>
       </div>
     </div>
   </nav>
@@ -197,13 +197,13 @@
 		%>
     </div>
     <h1 class="bg-indigo-600 text-white py-2 px-6 rounded-full text-xl mt-6 " style="width: 210px;
-    margin-left: 40%;">Update Employee</h1>
+    margin-left: 42%;">Update Employee</h1>
     <form action="/updateEmployee" method="post">
         <fieldset>
             <legend>Personal Details</legend><br>
             <fieldset>
             	<legend>Employee Id</legend>
-            	<label><input type="number" name="employeeid"></label>
+            	<label><input type="number" name="employeeId"></label>
                 <legend>Name</legend>
                 <label>First Name: <input type="text" name="firstName"></label>
                 <label>Middle Name: <input type="text" name="middleName"></label>
@@ -246,7 +246,7 @@
             <p style="font-weight: bold;">Role</p>
             <label><input type="radio" name="role" value="Employee" checked>Employee</label>
             <label><input type="radio" name="role" value="Admin">Admin</label>
-            <label style="font-weight: bold;">Password (Taken name if not given): <input type="password" name="password"></label>
+            <label style="font-weight: bold;">Password <input type="password" name="password"></label>
         </fieldset>
 
         <br>
@@ -258,75 +258,54 @@
   <div class="container mx-auto px-4">
     <div class="sm:flex sm:flex-wrap sm:-mx-4 md:py-4">
       <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6">
-        <h5 class="text-xl font-bold mb-6">Features</h5>
-        <ul class="list-none footer-links">
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Cool stuff</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Random feature</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Team feature</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Stuff for developers</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Another one</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Last time</a>
-          </li>
-        </ul>
-      </div>
-      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 sm:mt-0">
-        <h5 class="text-xl font-bold mb-6">Resources</h5>
-        <ul class="list-none footer-links">
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Resource</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Resource name</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Another resource</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Final resource</a>
-          </li>
-        </ul>
-      </div>
-      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
-        <h5 class="text-xl font-bold mb-6">About</h5>
-        <ul class="list-none footer-links">
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Team</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Locations</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Privacy</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Terms</a>
-          </li>
-        </ul>
-      </div>
-      <div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
-        <h5 class="text-xl font-bold mb-6">Help</h5>
-        <ul class="list-none footer-links">
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Support</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Help Center</a>
-          </li>
-          <li class="mb-2">
-            <a href="#" class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Contact Us</a>
-          </li>
-        </ul>
+       <h5 class="text-xl font-bold mb-6">Features</h5>
+						<ul class="list-none footer-links">
+							<li class="mb-2"><a href="/createEmployee"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Create
+									Service</a></li>
+							<li class="mb-2"><a href="/readAllEmployee"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Read
+									Service</a></li>
+							<li class="mb-2"><a href="/updateEmployee"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Update
+									Service</a></li>
+							<li class="mb-2"><a href="/deleteEmployee"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Delete
+									Service</a></li>
+						</ul>
+					</div>
+					<div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 sm:mt-0">
+						<h5 class="text-xl font-bold mb-6">Resources</h5>
+						<ul class="list-none footer-links">
+							<li class="mb-2"><a href="/admin/dashboard"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Dashboard</a>
+							</li>
+							<li class="mb-2"><a href="/login"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Login Page
+									</a></li>
+							<li class="mb-2"><a href="/auth/logout"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Logout Page
+									</a></li>
+						</ul>
+					</div>
+					<div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
+						<h5 class="text-xl font-bold mb-6">About</h5>
+						<ul class="list-none footer-links">
+							<li class="mb-2"><a href="/index"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Home Page</a>
+							</li>
+							<li class="mb-2"><a href="/aboutus"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">About Us</a>
+							</li>
+						</ul>
+					</div>
+					<div class="px-4 sm:w-1/2 md:w-1/4 xl:w-1/6 mt-8 md:mt-0">
+						<h5 class="text-xl font-bold mb-6">Help</h5>
+						<ul class="list-none footer-links">
+							<li class="mb-2"><a href="/contactus"
+								class="border-b border-solid border-transparent hover:border-purple-800 hover:text-purple-800">Contact Us</a>
+							</li>
+						</ul>
       </div>
       <div class="px-4 mt-4 sm:w-1/3 xl:w-1/6 sm:mx-auto xl:mt-0 xl:ml-auto">
         <h5 class="text-xl font-bold mb-6 sm:text-center xl:text-left">Stay connected</h5>
@@ -344,7 +323,7 @@
       </div>
     </div>
 <div class="footer2">
-                Copyright © 2023 Yash & Anand . All Right Reserved .
+                Copyright © 2024 Anand & Yash . All Right Reserved .
             </div>
     
   </div>

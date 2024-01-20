@@ -17,7 +17,10 @@ import com.example.DeleteEmployeeService.model.EmployeeModel;
 import com.example.DeleteEmployeeService.repository.EmployeeRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+//@Slf4j
 @RequestMapping("/DeleteEmployeeService")
 public class EmployeeController {
 
@@ -27,23 +30,33 @@ public class EmployeeController {
 	AuthenticationRepository authenticationRepository;
 
 	@GetMapping("/deleteById")
-	public Map<String, Object> getEmployeeById(@RequestParam long id) {
-
-		Map<String, Object> responce = new HashMap<>();
+	public Map<String, Object> deleteEmployeeById(@RequestParam long id) {
+//		log.info("*****");
+//		log.info("GET - /deleteById");
+//		log.info("id = " + id);
+		
+		Map<String, Object> response = new HashMap<>();
 
 		Optional<EmployeeModel> employeeModel = employeeRepository.findById(id);
 		if (employeeModel.isPresent()){
+			
 			authenticationRepository.deleteByEmployeeModel(employeeModel.get());
 			employeeRepository.deleteById(id);
-			responce.put("status", "success");
-			responce.put("message", "Deleted " + employeeModel.get().getName().getFirst_name() + " 's id");
+			
+			response.put("status", "success");
+			response.put("message", "Deleted " + employeeModel.get().getName().getFirst_name() + " 's Account");
 		}
 		else {
-			responce.put("status", "fail");
-			responce.put("message", "No employee with id: " + id);
+			response.put("status", "fail");
+			response.put("message", "No Employee with Id: " + id);
 
 		}
-		return responce;
+		
+//		log.info("response = ");
+//		log.info("\t status = " + response.get("status"));
+//		log.info("\t message = " + response.get("message"));
+//		log.info("*****");
+		return response;
 	}
 
 }

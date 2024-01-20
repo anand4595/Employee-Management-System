@@ -15,5 +15,11 @@ public class HomePageController {
 	    public String getIndexPage() {
 	        return "index"; 
 	    }
+	 
+	 @GetMapping("/login")
+	 	public String loginPage() {
+		 return "login";
+	 }
+
 	
 }

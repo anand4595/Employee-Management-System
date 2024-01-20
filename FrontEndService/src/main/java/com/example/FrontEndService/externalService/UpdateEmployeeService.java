@@ -12,7 +12,7 @@ import com.example.FrontEndService.model.Role;
 public interface UpdateEmployeeService {
     	@PostMapping("employeeService/updateEmployee")
 		public Map<String, String> updateEmployee(
-				@RequestParam Long employeeid,
+				@RequestParam Long employeeId,
 				@RequestParam String firstName,
 				@RequestParam String middleName,
 				@RequestParam String lastName,

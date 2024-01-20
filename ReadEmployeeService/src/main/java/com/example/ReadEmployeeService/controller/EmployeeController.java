@@ -55,4 +55,23 @@ public class EmployeeController {
 		
 		return responce;
 	}
+	
+	@GetMapping("/getEmployeeByEmail")
+	public Map<String, Object> getEmployeeByEmail (
+			@RequestParam String email
+		){
+		List<EmployeeModel> employeeList =  employeeRepository.findByEmail(email);
+
+		Map<String, Object> response = new HashMap<>();
+
+		response.put("EmployeeId", employeeList.get(0).getId());
+
+		response.put("EmployeeName", employeeList.get(0).getName().getFirst_name()+" "+employeeList.get(0).getName().getMiddle_name()+" "+employeeList.get(0).getName().getLast_name());
+		response.put("EmployeeEmail", employeeList.get(0).getEmail());
+		response.put("EmployeeGender", employeeList.get(0).getGender().toString());
+		response.put("EmployeeDepartment", employeeList.get(0).getDeparment().getName());
+		
+		
+		return response;
+	}
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -63,27 +64,50 @@ public class EmployeeController {
             return response;
         } else {
             // Employee found, perform update
-            employeeModel.get().setName(EmployeeNameModel.builder()
-                    .first_name(firstName)
-                    .middle_name(middleName)
-                    .last_name(lastName)
-                    .build());
-            employeeModel.get().setEmail(email);
-            employeeModel.get().setGender(EmployeeGender.valueOf(gender));
-            employeeModel.get().setAge(age);
-            employeeModel.get().setSalary(salary);
-            employeeModel.get().setDeparment(DepartmentListModel.builder().name(department).build());
+        	
+//        	System.err.println("-----------------------------------------------");
+//        	System.err.println("/n/n/n/n" + "Indside else" +"/n/n/n/n");
+//        	System.err.println("------------------------------------------------");
+        	
+        	EmployeeModel newEmpmodel = EmployeeModel
+        			.builder()
+        			.id(employeeId)
+        			.name(EmployeeNameModel.builder().first_name(firstName).middle_name(middleName).last_name(lastName).build())
+        			.age(age)
+        			.salary(salary)
+        			.email(email)
+        			.deparment(DepartmentListModel.builder().name(department).build())
+        			.gender(EmployeeGender.valueOf(gender))
+        			.build();
 
-            employeeRepository.save(employeeModel.get());
+//        	System.err.println("-----------------------------------------------");
+//        	System.err.println("/n/n/n/n" + "newEmplomdel===/n" + newEmpmodel.toString() +"/n/n/n/n");
+//        	System.err.println("------------------------------------------------");
+        	
+            newEmpmodel = employeeRepository.save(newEmpmodel);
 
-            Optional<AuthenticationModel> authenticationModel = authenticationRepository.findById(employeeModel.get().getId());
+//        	System.err.println("-----------------------------------------------");
+//        	System.err.println("/n/n/n/n" + "employee saved===/n" + newEmpmodel.toString()+"/n/n/n/n");
+//        	System.err.println("------------------------------------------------");
+            
+            
+            List<AuthenticationModel> authenticationModel = authenticationRepository.findByEmployeeModel(newEmpmodel);
 
+//        	System.err.println("-----------------------------------------------");
+//        	System.err.println("/n/n/n/n" + "employee saved===/n" + authenticationModel.toString()+"/n/n/n/n");
+//        	System.err.println("------------------------------------------------");
+                      
+            
             // Authentication found, perform update
-            authenticationModel.get().setRole(Role.valueOf(role));
-            authenticationModel.get().setPassword(password);
+            authenticationModel.get(0).setRole(Role.valueOf(role));
+            authenticationModel.get(0).setPassword(password);
 
-            authenticationRepository.save(authenticationModel.get());
+            authenticationRepository.save(authenticationModel.get(0));
 
+//        	System.err.println("-----------------------------------------------");
+//        	System.err.println("/n/n/n/n" + "Auth model saved" + "/n/n/n/n");
+//        	System.err.println("------------------------------------------------");
+            
             Map<String, String> response = new HashMap<>();
             response.put("status", "success");
             response.put("message", "Employee with ID: " + employeeModel.get().getId() + " has been updated");

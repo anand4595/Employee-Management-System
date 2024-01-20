@@ -1,43 +1,58 @@
 package com.example.FrontEndService.controller;
 
-import com.example.FrontEndService.ResponseModel.administrator.DepartmentListResponse;
-import com.example.FrontEndService.ResponseModel.employee.CreateEmployeeResponse;
-//import com.example.FrontEndService.externalServices.AdministratorService;
-import com.example.FrontEndService.externalServices.CRUDService;
-//import com.example.FrontEndService.externalServices.CreateEmployeeService;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.example.FrontEndService.externalService.AdministratorService;
+import com.example.FrontEndService.externalService.CreateEmployeeService;
+import com.example.FrontEndService.model.DepartmentListModel;
+import com.example.FrontEndService.model.Role;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CreateEmployeeController {
 
 	@Autowired
-	CRUDService crudService;
+	CreateEmployeeService createEmployeeService;
+
+	@Autowired
+	AdministratorService administratorService;
 
 	@GetMapping("/createEmployee")
-	public ModelAndView createEmployee() {
+	public ModelAndView createEmployee(HttpServletRequest httpServletRequest) {
+		
+		HttpSession session = httpServletRequest.getSession();
+		
+		if (session.getAttribute("Role") == null || session.getAttribute("Role") != Role.Admin) {
+			return new ModelAndView("accessDenied");
+		}
+		
+		
 		ModelAndView modelAndView = new ModelAndView("createEmployee");
 
-		ResponseEntity<DepartmentListResponse> departmentListResponse = crudService.departmentList();
+		List<DepartmentListModel> departmentListModelList = administratorService.getDepartmentList();
 
-		modelAndView.addObject("departmentListResponse", departmentListResponse);
+		modelAndView.addObject("departmentListModelList", departmentListModelList);
 
 		return modelAndView;
 	}
 
 	@PostMapping("/createEmployee")
-	public ModelAndView createEmployeePost(HttpServletRequest httpServletRequest) {
+	public ModelAndView createEmployeePost(
+			HttpServletRequest httpServletRequest) {
 		ModelAndView modelAndView = new ModelAndView("createEmployee");
 
-		ResponseEntity<DepartmentListResponse> departmentListResponse = crudService.departmentList();
+		List<DepartmentListModel> departmentListModelList = administratorService.getDepartmentList();
 
-		modelAndView.addObject("departmentListResponse", departmentListResponse);
+		modelAndView.addObject("departmentListModelList", departmentListModelList);
 
 		// post specific codes
 
@@ -52,20 +67,10 @@ public class CreateEmployeeController {
 		String role = httpServletRequest.getParameter("role");
 		String password = httpServletRequest.getParameter("password");
 
-		ResponseEntity<CreateEmployeeResponse> CreateResponse = crudService.create(
-	            salary,
-	            email,
-	            gender,
-	            age,
-	            firstName,
-	            middleName,
-	            lastName,
-	            role,
-	            password,
-	            department
-				);
-
-		modelAndView.addObject("CreateResponse", CreateResponse);
+		Map<String, String> responce = createEmployeeService.createEmployee(firstName, middleName, lastName, email, gender, age, salary, department,
+				role, password);
+		
+		modelAndView.addObject("responce", responce);
 
 		return modelAndView;
 	}

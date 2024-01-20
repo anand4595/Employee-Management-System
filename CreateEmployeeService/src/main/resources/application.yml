@@ -10,7 +10,7 @@ spring:
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/EmployeeManagementDB
     username: root
-    password: root
+    password: root 
     driver-class-name: com.mysql.cj.jdbc.Driver
    
   application:

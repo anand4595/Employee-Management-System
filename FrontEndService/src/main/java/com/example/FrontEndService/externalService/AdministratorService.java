@@ -38,5 +38,12 @@ public interface AdministratorService {
 	public Map<String, String> createQuery(@RequestParam("name") String name, @RequestParam("email") String email,
 			@RequestParam("query") String query);
 
+
+// Auth Controller 
 	
+	@PostMapping("/auth/login")
+	public Map<String, Object> login(
+			@RequestParam("email") String email,
+			@RequestParam("password") String password
+		);
 }
