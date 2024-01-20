@@ -244,7 +244,7 @@ body {
 						</div>
 					</div>
 				</div>
-				<div class="footer2">Copyright © 2024  Anand & Yash. All Right
+				<div class="footer2">Copyright © 2024  Anand. All Right
 					Reserved .</div>
 
 			</div>
